@@ -7,4 +7,4 @@ RUN npm i npm
 
 RUN npm install
 
-COPY src .
+COPY . .

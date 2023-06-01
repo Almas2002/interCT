@@ -1,0 +1,31 @@
+version: "3.1"
+
+services:
+  api:
+    container_name: api
+    build: ./
+    command: npm run start
+    restart: always
+    ports:
+      - "3000:3000"
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER: ${DB_USERNAME}
+      - POSTGRES_PASSWORD: ${DB_PASSWORD}
+      - POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  webserver:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+    depends_on:
+      - api
+volumes:
+  pgdata:

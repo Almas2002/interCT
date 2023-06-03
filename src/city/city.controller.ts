@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post} from "@nestjs/common";
 import {CityService} from "./city.service";
 import {CreateCityDto} from "./city.dto";
 import {ApiTags} from "@nestjs/swagger";
@@ -17,5 +17,10 @@ export class CityController {
     @Get()
     getCity() {
         return this.cityService.getAll()
+    }
+
+    @Delete(":id")
+    delete(@Param('id')id: number) {
+        return this.cityService.delete(id)
     }
 }

@@ -20,4 +20,7 @@ export class User {
 
   @OneToOne(()=>Bus,bus=>bus.user)
   bus:Bus
+
+  @Column({type:"float",default:0})
+  money:number
 }

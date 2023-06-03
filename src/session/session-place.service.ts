@@ -1,6 +1,5 @@
 import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
-import {SessionService} from "./session.service";
 import {SessionPlace} from "./session-place.entity";
 import {Repository} from "typeorm";
 import {PlaceService} from "../place/place.service";
@@ -21,6 +20,10 @@ export class SessionPlaceService {
     }
 
     async getPlaces(sessionId: number) {
-        return this.sessionPlaceRepository.find({where: {session: {id: sessionId}},relations:["place"]})
+        return this.sessionPlaceRepository.find({where: {session: {id: sessionId}}, relations: ["place"]})
+    }
+
+    async getPlaceByOne(id: number) {
+        return this.sessionPlaceRepository.findOne({where: {id},relations:["session","session.bus","bus.type"]})
     }
 }

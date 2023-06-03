@@ -12,7 +12,8 @@ import {SessionController} from "./session.controller";
 @Module({
     controllers:[SessionController],
     providers:[SessionService,SessionPlaceService],
-    imports:[TypeOrmModule.forFeature([Session,SessionPlace]),PlaceModule,BusModule,DistrictModule]
+    imports:[TypeOrmModule.forFeature([Session,SessionPlace]),PlaceModule,BusModule,DistrictModule],
+    exports:[SessionPlaceService]
 })
 export class SessionModule{
 

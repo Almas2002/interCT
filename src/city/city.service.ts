@@ -26,4 +26,8 @@ export class CityService {
     async getAll() {
         return this.cityRepository.find()
     }
+
+    async delete(id:number){
+        await this.cityRepository.delete({id})
+    }
 }

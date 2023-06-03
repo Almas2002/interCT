@@ -21,13 +21,13 @@ export class PlaceController {
         return this.placeService.createType(dto)
     }
 
+    @Get("type")
+    getTypes() {
+        return this.placeService.getTypes()
+    }
     @Get("/:typeId")
     getPlaces(@Param('typeId')typeId: number) {
         return this.placeService.getPlace(typeId)
     }
 
-    @Get("type")
-    getTypes() {
-        return this.placeService.getTypes()
-    }
 }

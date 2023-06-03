@@ -1,6 +1,7 @@
 import {User} from "../user/user.entity";
-import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Type} from "../place/type.entity";
+import {Ticket} from "../ticket/ticket.entity";
 
 @Entity()
 export class Bus {
@@ -19,4 +20,7 @@ export class Bus {
 
     @ManyToOne(() => Type, type => type.buses)
     type: Type
+
+    @OneToMany(()=>Ticket,ticket=>ticket.bus)
+    tickets:Ticket[]
 }

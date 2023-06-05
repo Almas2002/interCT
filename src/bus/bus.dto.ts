@@ -6,3 +6,8 @@ export class CreateBusDto{
     @ApiProperty()
     typeId:number
 }
+
+export class QueryBus{
+    limit:number;
+    page:number
+}

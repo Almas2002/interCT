@@ -24,6 +24,9 @@ export class SessionPlaceService {
     }
 
     async getPlaceByOne(id: number) {
-        return this.sessionPlaceRepository.findOne({where: {id},relations:["session","session.bus","bus.type"]})
+        return this.sessionPlaceRepository.findOne({
+            where: {id},
+            relations: ["session", "session.bus", "bus.type", "bus.coordinates"]
+        })
     }
 }

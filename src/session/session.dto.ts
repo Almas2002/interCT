@@ -1,4 +1,5 @@
 import {ApiProperty} from "@nestjs/swagger";
+import {SessionStatus} from "./session.entity";
 
 export class CreateSessionDto {
     @ApiProperty()
@@ -25,4 +26,10 @@ export class QuerySessions {
     busId: number;
     limit:number;
     page:number;
+    status:string;
+}
+
+export class UpdateSessionStatus{
+    @ApiProperty({enum:SessionStatus,type:SessionStatus,required:true})
+    status:SessionStatus
 }

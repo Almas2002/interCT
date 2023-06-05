@@ -1,15 +1,14 @@
-import {Body, Controller, Get, Param, Post, Query, UseGuards} from "@nestjs/common";
+import {Body, Controller, Get, Param, Post, Put, Query, UseGuards} from "@nestjs/common";
 import {SessionService} from "./session.service";
 import {AuthGuard} from "../auth/guard/auth.guard";
-import {CreateSessionDto, QuerySessions} from "./session.dto";
+import {CreateSessionDto, QuerySessions, UpdateSessionStatus} from "./session.dto";
 import {UserDecorator} from "../decorators/user.decorator";
 import {ApiQuery, ApiTags} from "@nestjs/swagger";
 
 @ApiTags("session")
 @Controller("session")
 export class SessionController {
-    constructor(private sessionService: SessionService) {
-    }
+    constructor(private sessionService: SessionService) {}
 
     @UseGuards(AuthGuard)
     @Post()
@@ -27,13 +26,19 @@ export class SessionController {
     @ApiQuery({name: "limit", required: false, type: "number"})
     @ApiQuery({name: "page", required: false, type: "number"})
     @ApiQuery({name: "arrivalDate", required: false, type: "date"})
+    @ApiQuery({name: "status", required: false, type: "string"})
     @Get()
     async getAll(@Query()query: QuerySessions) {
         return this.sessionService.getSessions(query)
     }
 
     @Get(":id")
-    async getOne(@Param('id')id:number){
+    async getOne(@Param('id')id: number) {
         return this.sessionService.getOneById(id)
+    }
+
+    @Put("/status/:id")
+    updateStatus(@Param("id") busId: number, @Body()dto: UpdateSessionStatus) {
+        return this.sessionService.updateStatus(dto, busId)
     }
 }

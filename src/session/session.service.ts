@@ -2,7 +2,7 @@ import {HttpException, Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Session} from "./session.entity";
 import {Repository} from "typeorm";
-import {CreateSessionDto, QuerySessions} from "./session.dto";
+import {CreateSessionDto, QuerySessions, UpdateSessionStatus} from "./session.dto";
 import {BusService} from "../bus/bus.service";
 import {DistrictService} from "../district/district.service";
 import {SessionPlaceService} from "./session-place.service";
@@ -26,7 +26,7 @@ export class SessionService {
             districtFrom: {id: dto.districtFromId},
             arrivalDate: new Date(),
             arrivalTime: dto.arrivalTime,
-            districtsTo:[]
+            districtsTo: []
         })
         let district
         if (dto?.districtsToIds.length) {
@@ -51,7 +51,7 @@ export class SessionService {
             .leftJoinAndSelect("session.cityTo", "cityTo")
             .leftJoinAndSelect("session.bus", "bus")
             .leftJoinAndSelect("bus.type", "type")
-            .andWhere("session.block = false")
+            .andWhere("session.collects = false")
 
         if (dto?.arrivalDate) {
             query.andWhere("session.arrivalDate = :arrivalDate", {arrivalDate: dto.arrivalDate})
@@ -75,6 +75,9 @@ export class SessionService {
             query.leftJoin("session.districtsTo", "districtsTo")
             query.andWhere("districtsTo.id = :districtToId", {districtToId: dto.districtToId})
         }
+        if (dto?.status) {
+            query.andWhere("session.status = :status", {status: dto.status})
+        }
 
         query.limit(limit)
         query.offset(offset)
@@ -82,7 +85,17 @@ export class SessionService {
         return {data: data[0], count: data[1]}
     }
 
-    async getOneById(id:number){
-        return this.sessionRepository.findOne({where:{id},relations:["cityFrom","cityTo","bus","places","places.place","districtFrom","districtsTo"]})
+    async getOneById(id: number) {
+        return this.sessionRepository.findOne({
+            where: {id},
+            relations: ["cityFrom", "cityTo", "bus","bus.coordinates", "places", "places.place", "districtFrom", "districtsTo"]
+        })
+    }
+
+
+    async updateStatus(dto: UpdateSessionStatus, id: number) {
+        const session = await this.sessionRepository.findOne({where: {id}})
+        session.status = dto.status
+        await this.sessionRepository.save(session)
     }
 }

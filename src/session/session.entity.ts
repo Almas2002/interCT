@@ -4,6 +4,12 @@ import {City} from "../city/city.entity";
 import {District} from "../district/district.entity";
 import {SessionPlace} from "./session-place.entity";
 
+export enum SessionStatus {
+    COLLECTS = "collects",
+    InTransit = "inTransit",
+    FINISH = "finish"
+}
+
 @Entity()
 export class Session {
     @PrimaryGeneratedColumn()
@@ -28,8 +34,8 @@ export class Session {
     @ManyToOne(() => District, district => district.sessionsFrom)
     districtFrom: District
 
-    @Column({default: false})
-    block: boolean
+    @Column({default: SessionStatus.COLLECTS,enum:SessionStatus,type:"enum"})
+    status: SessionStatus
 
     @OneToMany(() => SessionPlace, place => place.session)
     places: SessionPlace[]

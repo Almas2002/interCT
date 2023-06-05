@@ -1,6 +1,6 @@
 import {HttpException, Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
-import {Session} from "./session.entity";
+import {Session, SessionStatus} from "./session.entity";
 import {Repository} from "typeorm";
 import {CreateSessionDto, QuerySessions, UpdateSessionStatus} from "./session.dto";
 import {BusService} from "../bus/bus.service";
@@ -46,13 +46,12 @@ export class SessionService {
         const limit = dto?.limit || 10
         const page = dto?.page || 1
         const offset = page * limit - limit
-        const query = await this.sessionRepository.createQueryBuilder("session")
+        const query = this.sessionRepository.createQueryBuilder("session")
             .leftJoinAndSelect("session.cityFrom", "cityFrom")
             .leftJoinAndSelect("session.cityTo", "cityTo")
             .leftJoinAndSelect("session.bus", "bus")
             .leftJoinAndSelect("bus.type", "type")
-            .andWhere("session.collects = false")
-
+            .andWhere("session.status = :collects",{collects:SessionStatus.COLLECTS})
         if (dto?.arrivalDate) {
             query.andWhere("session.arrivalDate = :arrivalDate", {arrivalDate: dto.arrivalDate})
         }

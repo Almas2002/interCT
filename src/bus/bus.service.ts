@@ -39,6 +39,7 @@ export class BusService {
         const page = dto?.page || 1
         const offset = page * limit - limit
         const query = await this.busRepository.createQueryBuilder("bus")
+            .leftJoinAndSelect("bus.type","type")
         query.limit(limit)
         query.offset(offset)
         const data = await query.getManyAndCount()

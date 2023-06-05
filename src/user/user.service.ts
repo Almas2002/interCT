@@ -53,7 +53,7 @@ export class UserService {
     }
 
     async userMe(id: number) {
-        return this.userRepository.findOne({where: {id}, relations: ["bus", "tickets","bus.coordinates"]})
+        return this.userRepository.findOne({where: {id}, relations: ["bus", "tickets","bus.coordinates","bus.type"]})
     }
 
     async score (id:number,money:number){

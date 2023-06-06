@@ -3,6 +3,7 @@ import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGener
 import {Type} from "../place/type.entity";
 import {Ticket} from "../ticket/ticket.entity";
 import {Location} from "./location.entity";
+import {Session} from "../session/session.entity";
 
 @Entity()
 export class Bus {
@@ -27,4 +28,7 @@ export class Bus {
 
     @OneToOne(()=>Location,location=>location.bus)
     coordinates:Location
+
+    @OneToMany(()=>Session,session=>session.bus)
+    sessions:Session []
 }

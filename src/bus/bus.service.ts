@@ -24,6 +24,10 @@ export class BusService {
         return this.busRepository.findOne({where: {user: {id: userId}}, relations: ["type"]})
     }
 
+    async getById(id:number){
+        return this.busRepository.findOne({where: {id}, relations: ["type"]})
+    }
+
     async updateLocation(dto: UpdateLocationDto, busId: number) {
         const bus = await this.locationRepository.findOne({where: {bus: {id: busId}}})
         if (!bus) {

@@ -7,11 +7,11 @@ import {Bus} from "../bus/bus.entity";
 export class Ticket{
     @PrimaryGeneratedColumn()
     id:number;
-    @OneToOne(()=>SessionPlace,session=>session)
+    @OneToOne(()=>SessionPlace,session=>session.ticket)
     @JoinColumn({name:"session_id"})
     session:SessionPlace;
 
-    @ManyToMany(()=>Bus,bus=>bus)
+    @ManyToOne(()=>Bus,bus=>bus.tickets)
     bus:Bus
     @ManyToOne(()=>User,user=>user.tickets)
     user:User;

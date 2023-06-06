@@ -15,7 +15,7 @@ export enum SessionStatus {
 export class Session {
     @PrimaryGeneratedColumn()
     id: number;
-    @ManyToOne(() => Bus)
+    @ManyToOne(() => Bus,bus=>bus.sessions)
     bus: Bus;
     @Column()
     arrivalDate: Date

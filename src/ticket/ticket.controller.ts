@@ -22,5 +22,11 @@ export class TicketController {
     tickets(@Param("busId")id:number){
         return this.ticketService.getTicketsByBusId(id)
     }
+    @ApiOperation({summary:"взять мои билеты"})
+    @UseGuards(AuthGuard)
+    @Get()
+    myTickets(@UserDecorator('id')id:number){
+        return this.ticketService.getMyTickets(id)
+    }
 
 }

@@ -53,7 +53,7 @@ export class UserService {
     }
 
     async userMe(id: number) {
-        return this.userRepository.findOne({where: {id}, relations: ["bus", "tickets","bus.coordinates","bus.type"]})
+        return this.userRepository.findOne({where: {id}, relations: ["bus","bus.coordinates","bus.type"]})
     }
     async findById(id: number){
         return this.userRepository.findOne({where:{id}})

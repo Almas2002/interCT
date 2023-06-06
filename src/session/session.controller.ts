@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post, Put, Query, UseGuards} from "@nestjs/common";
+import {Body, Controller, Get, Param, Post, Put, Query, Req, UseGuards} from "@nestjs/common";
 import {SessionService} from "./session.service";
 import {AuthGuard} from "../auth/guard/auth.guard";
 import {CreateSessionDto, QuerySessions, UpdateSessionStatus} from "./session.dto";
@@ -27,9 +27,10 @@ export class SessionController {
     @ApiQuery({name: "page", required: false, type: "number"})
     @ApiQuery({name: "arrivalDate", required: false, type: "date"})
     @ApiQuery({name: "status", required: false, type: "string"})
+    @ApiQuery({name: "like", required: false, type: "boolean"})
     @Get()
-    async getAll(@Query()query: QuerySessions) {
-        return this.sessionService.getSessions(query)
+    async getAll(@Query()query: QuerySessions, @Req() req) {
+        return this.sessionService.getSessions(query, req.user?.id)
     }
 
     @Get(":id")

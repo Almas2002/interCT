@@ -5,7 +5,10 @@ server {
      server_name 164.92.129.220 api.7kzu.kz;
      server_tokens off;
      client_max_body_size 100M;
-
+     location ~ /.well-known/acme-challenge {
+                       allow all;
+                       root /var/www/html;
+          }
      location / {
             add_header 'Access-Control-Allow-Origin' $http_origin;
             add_header 'Access-Control-Allow-Methods' 'GET,POST,OPTIONS,PUT,PATCH,DELETE';

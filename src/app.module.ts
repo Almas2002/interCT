@@ -12,6 +12,8 @@ import {PlaceModule} from "./place/place.module";
 import {SessionModule} from "./session/session.module";
 import {AuthMiddleware} from "./middleware/auth.milddleaware";
 import {TicketModule} from "./ticket/ticket.module";
+import {ChatModule} from "./chat/chat.module";
+import {LikeModule} from "./like/like.module";
 require('dotenv').config()
 
 
@@ -27,7 +29,7 @@ require('dotenv').config()
     // url: process.env.DATABASE_URL,
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true,
-  }),UserModule,AuthModule,RoleModule,BusModule,FileModule,DistrictModule,CityModule,PlaceModule,SessionModule,TicketModule],
+  }),UserModule,AuthModule,RoleModule,BusModule,FileModule,DistrictModule,CityModule,PlaceModule,SessionModule,TicketModule,ChatModule,LikeModule],
   controllers: [],
   providers: [],
 })

@@ -3,6 +3,7 @@ import {Bus} from "../bus/bus.entity";
 import {City} from "../city/city.entity";
 import {District} from "../district/district.entity";
 import {SessionPlace} from "./session-place.entity";
+import {Like} from "../like/like.entity";
 
 export enum SessionStatus {
     COLLECTS = "collects",
@@ -39,4 +40,7 @@ export class Session {
 
     @OneToMany(() => SessionPlace, place => place.session)
     places: SessionPlace[]
+
+    @OneToMany(()=>Like,like=>like.session)
+    likes:Like[]
 }

@@ -27,6 +27,7 @@ export class QuerySessions {
     limit:number;
     page:number;
     status:string;
+    like:boolean;
 }
 
 export class UpdateSessionStatus{

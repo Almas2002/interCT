@@ -25,7 +25,20 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+      - www-html:/var/www/html
+      - etc-letsencrypt:/etc/letsencrypt
     depends_on:
       - api
+  certbot:
+    image: certbot/certbot:latest
+    container_name: certbot
+    depends_on:
+      - webserver
+    volumes:
+      - www-html:/var/www/html
+      - etc-letsencrypt:/etc/letsencrypt
+    command: certonly --webroot --webroot-path=/var/www/html --email almas@gmail.com  --agree-tos --no-eff-email -d api.7kzu.kz
 volumes:
   pgdata:
+  www-html:
+  etc-letsencrypt:

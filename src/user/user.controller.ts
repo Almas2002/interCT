@@ -12,7 +12,6 @@ export class UserController{
  @UseGuards(AuthGuard)
  @Get("/me")
  async create(@UserDecorator("id")id:number){
-  console.log(id)
      return this.userService.userMe(id)
  }
 }

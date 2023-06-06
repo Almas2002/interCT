@@ -42,7 +42,10 @@ export class SessionService {
         return {id: session.id}
     }
 
-    async getSessions(dto: QuerySessions) {
+    async getSessions(dto: QuerySessions, userId: number) {
+        if (!userId){
+            userId = 0
+        }
         const limit = dto?.limit || 10
         const page = dto?.page || 1
         const offset = page * limit - limit
@@ -51,7 +54,10 @@ export class SessionService {
             .leftJoinAndSelect("session.cityTo", "cityTo")
             .leftJoinAndSelect("session.bus", "bus")
             .leftJoinAndSelect("bus.type", "type")
-            .andWhere("session.status = :collects",{collects:SessionStatus.COLLECTS})
+            .leftJoinAndSelect("session.likes","likes",`likes.user_id = ${userId}`)
+            .loadRelationCountAndMap('session.count', 'session.likes')
+            .andWhere("session.status = :collects", {collects: SessionStatus.COLLECTS})
+            .orderBy("session.id","DESC")
         if (dto?.arrivalDate) {
             query.andWhere("session.arrivalDate = :arrivalDate", {arrivalDate: dto.arrivalDate})
         }
@@ -77,6 +83,9 @@ export class SessionService {
         if (dto?.status) {
             query.andWhere("session.status = :status", {status: dto.status})
         }
+        if(!!dto?.like){
+            query.andWhere("likes.user_id = :userId", {userId: userId})
+        }
 
         query.limit(limit)
         query.offset(offset)
@@ -87,7 +96,7 @@ export class SessionService {
     async getOneById(id: number) {
         return this.sessionRepository.findOne({
             where: {id},
-            relations: ["cityFrom", "cityTo", "bus","bus.type","bus.coordinates", "places", "places.place", "districtFrom", "districtsTo"]
+            relations: ["cityFrom", "cityTo", "bus", "bus.type", "bus.coordinates", "places", "places.place", "districtFrom", "districtsTo"]
         })
     }
 

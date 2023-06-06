@@ -96,7 +96,7 @@ export class SessionService {
     async getOneById(id: number) {
         return this.sessionRepository.findOne({
             where: {id},
-            relations: ["cityFrom", "cityTo", "bus", "bus.type", "bus.coordinates", "places", "places.place", "districtFrom", "districtsTo"]
+            relations: ["cityFrom", "cityTo", "bus", "bus.type","bus.user", "bus.coordinates", "places", "places.place", "districtFrom", "districtsTo"]
         })
     }
 

@@ -54,6 +54,7 @@ export class SessionService {
             .leftJoinAndSelect("session.cityTo", "cityTo")
             .leftJoinAndSelect("session.bus", "bus")
             .leftJoinAndSelect("bus.type", "type")
+            .leftJoinAndSelect("bus.coordinates", "coordinates")
             .leftJoinAndSelect("session.likes","likes",`likes.user_id = ${userId}`)
             .loadRelationCountAndMap('session.count', 'session.likes')
             .andWhere("session.status = :collects", {collects: SessionStatus.COLLECTS})

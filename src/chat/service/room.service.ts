@@ -48,7 +48,7 @@ export class RoomService {
     const room = await this.roomRepository.save({ combination });
     room.users = [creatorProfile, user];
     await this.roomRepository.save(room);
-    return room;
+    return await this.roomRepository.findOne({where:{id:room.id},relations:["users"]});
   }
 
   async getRoom(id: number): Promise<Room> {

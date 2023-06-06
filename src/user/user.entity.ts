@@ -4,6 +4,7 @@ import {Ticket} from "../ticket/ticket.entity";
 import {Bus} from "../bus/bus.entity";
 import {ConnectionUser} from "../chat/model/connection-user.entity";
 import {Like} from "../like/like.entity";
+import {Comment} from "../comments/comment.entity";
 
 @Entity()
 export class User {
@@ -31,4 +32,7 @@ export class User {
 
   @OneToMany(()=>Like,like=>like.user)
   likes:Like[]
+
+  @OneToMany(()=>Comment,comment=>comment.user)
+  comments:Comment[]
 }

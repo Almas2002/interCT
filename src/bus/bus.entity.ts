@@ -4,6 +4,7 @@ import {Type} from "../place/type.entity";
 import {Ticket} from "../ticket/ticket.entity";
 import {Location} from "./location.entity";
 import {Session} from "../session/session.entity";
+import {Comment} from "../comments/comment.entity";
 
 @Entity()
 export class Bus {
@@ -31,4 +32,7 @@ export class Bus {
 
     @OneToMany(()=>Session,session=>session.bus)
     sessions:Session []
+
+    @OneToMany(()=>Comment,comment=>comment.bus)
+    comments:Comment []
 }

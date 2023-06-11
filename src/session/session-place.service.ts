@@ -37,8 +37,8 @@ export class SessionPlaceService {
         return this.sessionPlaceRepository.createQueryBuilder("sessionPlace")
             .leftJoinAndSelect("sessionPlace.place","place")
             .andWhere("sessionPlace.sessionId = :sessionId",{sessionId:id})
-            .orderBy("place.column","ASC")
-            .addOrderBy("place.row","ASC").getMany()
+            .orderBy("place.row","ASC")
+            .addOrderBy("place.column","ASC").getMany()
 
     }
 }

@@ -32,4 +32,13 @@ export class SessionPlaceService {
     async taken(id:number){
         await this.sessionPlaceRepository.update({id},{taken:true})
     }
+
+    async getPlacesOrderBy(id:number){
+        return this.sessionPlaceRepository.createQueryBuilder("sessionPlace")
+            .leftJoinAndSelect("sessionPlace.place","place")
+            .andWhere("sessionPlace.sessionId = :sessionId",{sessionId:id})
+            .orderBy("place.column","ASC")
+            .addOrderBy("place.row","ASC").getMany()
+
+    }
 }

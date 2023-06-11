@@ -95,10 +95,13 @@ export class SessionService {
     }
 
     async getOneById(id: number) {
-        return this.sessionRepository.findOne({
+        const session = await this.sessionRepository.findOne({
             where: {id},
-            relations: ["cityFrom", "cityTo", "bus", "bus.type","bus.user", "bus.coordinates", "places", "places.place", "districtFrom", "districtsTo"]
+            relations: ["cityFrom", "cityTo", "bus", "bus.type","bus.user", "bus.coordinates", "districtFrom", "districtsTo"]
         })
+         session.places = await this.sessionPlaceService.getPlacesOrderBy(id)
+         return session
+
     }
 
 

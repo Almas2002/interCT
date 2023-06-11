@@ -14,6 +14,7 @@ export class LikeService {
         let candidate = await this.likeRepository.findOne({where: {session: {id: dto.sessionId}, user: {id: userId}}})
         if (candidate){
             await this.likeRepository.delete({user:{id:userId},session:{id:dto.sessionId}})
+            return
         }
         const like = await this.likeRepository.save({session: {id: dto.sessionId}, user: {id: userId}})
         return {id: like.id}

@@ -16,7 +16,7 @@ export class TicketService {
 
     async create(dto: CreateTicketDto, userId: number): Promise<{ id: number }> {
         const session = await this.sessionPlaceService.getPlaceByOne(dto.sessionPlaceId)
-        if(session.taken){
+        if(session.taken === true){
             throw new HttpException("этот билет уже куплен",400)
         }
         const bus = await this.busService.getById(dto.busId)
